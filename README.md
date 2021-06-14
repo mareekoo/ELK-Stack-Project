@@ -6,7 +6,8 @@ The final setup consisted of 2 webservers running DVWA containers, Jump-Box runn
 Cloud-Infrastructure:
 
 ![image](https://user-images.githubusercontent.com/79946393/121948346-c30b2d00-cd1c-11eb-9a32-f10eaba25e92.png)
-https://app.diagrams.net/#G1x5d7sJwN2TFOnmbRRI_kMjEnDesSeZ5t
+[Azure Cloud Network Diagram.pdf](https://github.com/mareekoo/ELK-Stack-Project/files/6650902/Azure.Cloud.Network.Diagram.pdf)
+
 
 Instructions
 Make sure that you are logged into your personal Azure account
