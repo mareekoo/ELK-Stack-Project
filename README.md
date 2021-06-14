@@ -195,7 +195,7 @@ We selected the Session persistence to be Client IP and Protocol.
 We selected the backend pool, and health probe we configured previously.
 
 Assess our webservers via the Load balancer
-We accessed our webservers through the load-balancer by navigating to http://52.191.166.46/setup.php
+We accessed our webservers through the load-balancer by navigating to http://52.170.195.27/setup.php
 Create New vNet
 We created a new vNet located in the same resource group that we have been using.
 
