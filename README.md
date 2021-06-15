@@ -290,9 +290,6 @@ curl https://gist.githubusercontent.com/slape/5cc350109583af6cbe577bbcc0710c93/r
   * After we downloaded the file into the Ansible container, we edited the file as such:
    * we changed the 'username', the 'password', the 'hosts' IP address and ports number.
 
-filebeat config yml
-![image](https://user-images.githubusercontent.com/79946393/121949259-dff43000-cd1d-11eb-953d-045f3a42450f.png)
-
 ![filebeat_config_yml_1](https://user-images.githubusercontent.com/79946393/121999969-b665f380-cd73-11eb-951f-28d98be8d943.PNG)
 
 ![filebeat_config_yml_2](https://user-images.githubusercontent.com/79946393/121999979-bc5bd480-cd73-11eb-933f-5a42d1eafd61.PNG)
