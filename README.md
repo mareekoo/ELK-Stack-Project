@@ -137,7 +137,7 @@ YAML
 The Ansible container has full access to our VNet and can make a connection with our new VM. Each time we start our Virtual machines, we usually ran some few linux commands to start the ansible container and attach it, this below script was written to enhance performance. $ nano docker_container_ansible.sh
 
 
-![image](https://user-images.githubusercontent.com/79946393/121948308-b4bd1100-cd1c-11eb-9adb-18952928b5d0.png)
+![Docker Container excutin script](https://user-images.githubusercontent.com/79946393/121996495-5456bf80-cd6e-11eb-8ed4-26ffc9e62ff8.PNG)
 
 we then ran the following commands: $ chmod +x docker_container_ansible.sh $ sudo ./docker_container_ansible.sh This will eacalate our privilege to root.
 We then ran the following commands: root@cbe12e5ae6b6e:~# cd /etc/ansible
@@ -146,6 +146,8 @@ We created the YAML file: root@cbe12e5ae6b6e:/etc/ansible# nano pentest.yml
 
 
 ![image](https://user-images.githubusercontent.com/79946393/121948475-e7ffa000-cd1c-11eb-8600-320d586d7f3c.png)
+
+
 
 
 We edited the ansible.cfg, and hosts files as thus:
