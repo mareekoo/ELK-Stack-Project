@@ -152,22 +152,17 @@ We then ran the following commands: root@dd702153fa76:~# cd /etc/ansible
 
 We created the YAML file: root@dd702153fa76:/etc/ansible# nano pentest.yml
 
-pentest.yml
-![image](https://user-images.githubusercontent.com/79946393/121948475-e7ffa000-cd1c-11eb-8600-320d586d7f3c.png)
-
+![pentest_yml](https://user-images.githubusercontent.com/79946393/121999165-9550d300-cd72-11eb-9412-bc9a4b426454.PNG)
 
 We edited the ansible.cfg, and hosts files as follows:
 
 root@dd702153fa76:/etc/ansible# nano ansible.cfg
 
-ansible.cfg
-![image](https://user-images.githubusercontent.com/79946393/121948628-17161180-cd1d-11eb-8cf4-b6ec68831e2b.png)
+![ansible_config](https://user-images.githubusercontent.com/79946393/121999309-c4ffdb00-cd72-11eb-9625-6fe3e5cced4a.PNG)
 
 root@dd702153fa76:/etc/ansible# nano hosts
 
-hosts
-![image](https://user-images.githubusercontent.com/79946393/121948707-30b75900-cd1d-11eb-8ef7-490045fd10c8.png)
-
+![Hosts](https://user-images.githubusercontent.com/79946393/121999374-dba63200-cd72-11eb-9c6e-138391990bda.PNG)
 
 We then ran the playbook to install DVWA on our webservers, Web-1, Web-2, and Web-3
 
@@ -191,7 +186,7 @@ For the IP Assignment, we chose 'Static'
 We clicked on Review + create and confirm.
 
 Firewall Configuration
-we want to make sure that the load balancer is configured properly to allow traffic to the VM backend pool.
+We want to make sure that the load balancer is configured properly to allow traffic to the VM backend pool.
 
 From the load balancer details page and we clicked on Load balancing rules on the left side.
 
@@ -203,6 +198,9 @@ We selected the backend pool, and health probe we configured previously.
 
 Assess our webservers via the Load balancer
 We accessed our webservers through the load-balancer by navigating to http://52.170.195.27/setup.php
+
+![DVWA_site](https://user-images.githubusercontent.com/79946393/122000874-1b6e1900-cd75-11eb-934c-e47efdcf25f4.PNG)
+
 Create New vNet
 We created a new vNet located in the same resource group that we have been using.
 
@@ -233,7 +231,7 @@ After creating the new VM in Azure, verify that it works as expected by connecti
 
 From the Ansible container shell, SSH into the new VM using it's internal IP.
 
-Note that the new VM should be on a new subnet e.g 10.1.0.0/24
+Note that the new VM should be on a new subnet e.g 10.2.0.0/24
 
 (If the connection succeeds, you are ready to move on to the next step. If not, verify that you used the correct SSH key (from inside the Ansible container). If the problem persists, you will need to troubleshoot further).
 
@@ -259,22 +257,20 @@ root@dd702153fa76:/etc/ansible# nano hosts
 We created the elk yaml playbook
 root@dd702153fa76:/etc/ansible# nano install-elk.ymk
 
-install elk
-![image](https://user-images.githubusercontent.com/79946393/121948774-488edd00-cd1d-11eb-9f90-dc64de4c369c.png)
+![elk_playbook_yml](https://user-images.githubusercontent.com/79946393/121999765-5cfdc480-cd73-11eb-92ad-42dd2cb40f28.PNG)
+
+![elk_playbook_yml_2](https://user-images.githubusercontent.com/79946393/121999780-64bd6900-cd73-11eb-94f6-f0723acee29d.PNG)
 
 We then ran the paybook with this code:
 root@dd702153fa76:/etc/ansible# ansible-playbook install-elk.yml
 
 We accessed our ELK server by navigating to "http://[your.ELK-VM.External.IP]:5601/app/kibana" ie. http://23.101.120.171:5601/app/kibana#/home
 
-Kibana Home
-![image](https://user-images.githubusercontent.com/79946393/121948842-62302480-cd1d-11eb-8a2e-cd328221e7e8.png)
+![Welcome_to_Kibana](https://user-images.githubusercontent.com/79946393/121999882-8e769000-cd73-11eb-9193-d931411b54cc.PNG)
 
 We selected 'Explore on my own'
 
-Kibana add log
-![image](https://user-images.githubusercontent.com/79946393/121948888-73793100-cd1d-11eb-9bca-a30370640d8f.png)
-
+![Kibana_add_log_data](https://user-images.githubusercontent.com/79946393/121999909-99c9bb80-cd73-11eb-96c3-b70b817b6eee.PNG)
 
 Filebeat Installation on the DVWA Containers
 1. While the ELK server container is up and running, we clicked 'Explore on my Own', and performed the following tasks:
@@ -297,8 +293,9 @@ curl https://gist.githubusercontent.com/slape/5cc350109583af6cbe577bbcc0710c93/r
 filebeat config yml
 ![image](https://user-images.githubusercontent.com/79946393/121949259-dff43000-cd1d-11eb-953d-045f3a42450f.png)
 
-filebeat config yml
-![image](https://user-images.githubusercontent.com/79946393/121949304-ea162e80-cd1d-11eb-9afc-af2289d02874.png)
+![filebeat_config_yml_1](https://user-images.githubusercontent.com/79946393/121999969-b665f380-cd73-11eb-951f-28d98be8d943.PNG)
+
+![filebeat_config_yml_2](https://user-images.githubusercontent.com/79946393/121999979-bc5bd480-cd73-11eb-933f-5a42d1eafd61.PNG)
 
 3. Creating the FileBeat Installation Play
 
@@ -306,8 +303,7 @@ filebeat config yml
   * We created the filebeat-playbook.yml that we will use to installs the Filebeat and then copies the Filebeat configuration file to the correct location, as shown below:
     * We name the playbook as 'filebeat-playbook.yml'
 
-filebeat playbook yml
-![image](https://user-images.githubusercontent.com/79946393/121949354-fd28fe80-cd1d-11eb-8cfa-159246dd8526.png)
+![filebeat_playbook_yml](https://user-images.githubusercontent.com/79946393/122000020-c8479680-cd73-11eb-9c45-2a8a8f84dc90.PNG)
 
   * We saved the file in roles directory, and ran the filebeat-playbook.yml to install Filebeat on the DVWA machines:
 
@@ -323,12 +319,15 @@ After the playbook completed its installations, we performed thr following test 
  
 This gave us these as prove of installation success:
 
+![Kibana_add_log_data](https://user-images.githubusercontent.com/79946393/122000278-2bd1c400-cd74-11eb-82b3-5dd73fb67f64.PNG)
 
-check data
-![image](https://user-images.githubusercontent.com/79946393/121949521-277abc00-cd1e-11eb-909c-8fa16ab4bbe9.png)
+![Kibana_add_system_logs](https://user-images.githubusercontent.com/79946393/122000297-32f8d200-cd74-11eb-97da-31773c3cb271.PNG)
 
-syslog data
-![image](https://user-images.githubusercontent.com/79946393/121949535-2d709d00-cd1e-11eb-874c-4074e402db42.png)
+![Check_data_Module_status](https://user-images.githubusercontent.com/79946393/122000112-ec0adc80-cd73-11eb-9e25-0c33b0d07c93.PNG)
+
+![Kibana_system_log_1](https://user-images.githubusercontent.com/79946393/122000366-4c018300-cd74-11eb-9782-5dee545d0837.PNG)
+
+![Kibana_system_log_2](https://user-images.githubusercontent.com/79946393/122000374-515ecd80-cd74-11eb-8015-300a8cbcf592.PNG)
 
 
 Creating a Play to Install Metrcbeat
@@ -336,16 +335,14 @@ To do this, we followed the same procedures we used for installing filebeat. * W
 
 * We updated the metricbeat-config.yml file as shown below:
 
-metricbeat-config.yml
-![image](https://user-images.githubusercontent.com/79946393/121949588-3e211300-cd1e-11eb-84e1-b82e2cfaf5c9.png)
+![metricbeat_config_yml](https://user-images.githubusercontent.com/79946393/122000430-6b98ab80-cd74-11eb-849e-ef5db149c678.PNG)
 
-metricbeat-config.yml
-![image](https://user-images.githubusercontent.com/79946393/121949601-4416f400-cd1e-11eb-9db8-60690ddd41af.png)
+![metricbeat_config_yml_2](https://user-images.githubusercontent.com/79946393/122000450-75221380-cd74-11eb-9bdc-ccfd9e72e37e.PNG)
 
 We created our metricbeat playbook as shown below:
 
-metricbeat-playbook.yml
-![image](https://user-images.githubusercontent.com/79946393/121949636-4f6a1f80-cd1e-11eb-8c2a-eac0d49bb765.png)
+![metricbeat_playbook_yml](https://user-images.githubusercontent.com/79946393/122000483-810dd580-cd74-11eb-8817-cf5c8556c782.PNG)
+
 
 Verifying Metricbeat Installation and Playbook
 * We ran the metricbeat-playbook.yml file with the command: 
@@ -353,22 +350,7 @@ root@dd702153fa76:/etc/ansible# ansible-playbook metricbeat-playbook.yml
 
 * After the process completed, on the ELK server GUI, at 'Step 5: Module Status' we clicked 'Check Data'
 
-metricbeat
-![image](https://user-images.githubusercontent.com/79946393/121949720-6872d080-cd1e-11eb-9786-408cb03a3d0c.png)
-
-metricbeat docker
-![image](https://user-images.githubusercontent.com/79946393/121949747-7163a200-cd1e-11eb-8219-fb1e21eac247.png)
+![Kibana_Filebeat](https://user-images.githubusercontent.com/79946393/122000590-b3b7ce00-cd74-11eb-9f18-12cecd2a18ba.PNG)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
+![Kibana_Metricbeat](https://user-images.githubusercontent.com/79946393/122000627-c205ea00-cd74-11eb-94a6-4d6798fdf520.PNG)
