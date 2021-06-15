@@ -5,8 +5,7 @@ The final setup consisted of 2 webservers running DVWA containers, Jump-Box runn
 
 Cloud-Infrastructure:
 
-![Azure projrct diagram](https://user-images.githubusercontent.com/79946393/121986961-26b54a80-cd5d-11eb-8fc7-4931a09da686.png)
-
+![Azure projrct diagram](https://user-images.githubusercontent.com/79946393/121992326-0ab6a680-cd67-11eb-884e-f6b3101ee05f.png)
 
 Instructions
 Make sure that you are logged into your personal Azure account
