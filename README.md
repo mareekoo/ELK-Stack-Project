@@ -7,6 +7,7 @@ Cloud-Infrastructure:
 
 ![Azure projrct diagram](https://user-images.githubusercontent.com/79946393/121992326-0ab6a680-cd67-11eb-884e-f6b3101ee05f.png)
 
+
 Instructions
 Make sure that you are logged into your personal Azure account
 
@@ -17,7 +18,7 @@ We opened the Azure portal and search for "resource group" to demonstrate.
 
 We selected Resource groups in the search results and clicked the + Add button at the top.
 
-We selected a region, In this project we are using West US 2
+We selected a region, In this project we are using Central US
 
 Now that we have a resource group, we can add a virtual network.
 
@@ -28,7 +29,7 @@ We ensured this vNet is located in same region as the Resource Group.
 
 The rest of the settings at default.
 
-Notice that the IP Addressing has automatically created a new network space of 10.0.0.0/16 as expected.
+Notice that the IP Addressing has automatically created a new network space of 10.1.0.0/16 as expected.
 
 Setup Network Security Group (firewall) to protect the virtual network
 We opened the Azure portal and search for "Network security group."
@@ -69,19 +70,19 @@ We ran cat ~/.ssh/id_rsa.pub to show your id_rsa.pub key:
 We Copied the SSH key string and paste it into the Administrator Account section on the Basics page for the VM in Azure.
 
 For SSH public key source select Use existing public key from the drop down.
-You will use the same SSH key for every machine you create for this project
-Create VMs 2 and 3 - The Web VM's
-We Created 2 more new VMs with the following properties:
+You will use the same SSH key for every machine you create for this project.
+Create VMs 2, 3, and 4 - The Web VM's
+We Created 3 more new VMs with the following properties:
 
-named "Web-1" and "Web-2"
+Named "Web-1", "Web-2" and "Web-3"
 
-resource group Red Team.
+Resource group named to "Resource Group".
 
 Each VM located in the same region as the resource and security groups.
 
-We chose an administrative username - azdmin.
+We chose an administrative username - sysadmin.
 
-You should use the same admin name for all 3 machines.
+You should use the same admin name for all 4 machines.
 
 Setup ssh connection
 
@@ -93,13 +94,13 @@ Whose offering is Standard - B1ms
 
 1 CPU
 2 RAM
-It is crucial to make sure both of these VM's are in the same availability Set.
+It is crucial to make sure all of these VM's are in the same availability Set.
 
 Under Availability Options, we selected 'Availability Set'.
 
 Clicked on 'Create New' under the Availability set.
 
-We named it "Web-Set". for both VMs.
+We named it "Availability1" for all VMs.
 
 Then Save the changes.
 
@@ -107,7 +108,8 @@ Under Networking:
 
 We ensure that these new VMs are assigned to the security group.
 
-Also that these machines do not have public IP addresses by setting the Public IP to 'None' for both.
+Web-1 and Web-2 machines have public IP addresses.
+Web-3 do not have Public IP address by setting the Public IP to 'None'.
 
 Jump Box Administration
 We started by identifying your public IP address
@@ -116,10 +118,11 @@ Browse myipv4 to reveal your public IP address
 
 Then in the azure.com account, we searched for Network Securitry Group we created previously
 
-we created a rule to allow connection from our public IP Address to the VM's internal IP address via the Inbound security rules.
+We created a rule to allow connection from our public IP Address to the VM's internal IP address via the Inbound security rules.
 On the command line, we then ssh into the VM for administration
 
-The command to ssh into the VM is ssh azdmin@51.143.20.69 where azdmin is username and 51.143.20.69 is Jump-Box-Provisioner public IP address.
+The command to ssh into the VM is ssh sysadmin@40.117.138.222 where sysadmin is username and 40.117.138.222 is Jump-Box-Provisioner public IP address.
+
 Installing Docker containers into the VMs
 Docker is the most common program used to manage containers
 
@@ -137,34 +140,38 @@ YAML
 The Ansible container has full access to our VNet and can make a connection with our new VM. Each time we start our Virtual machines, we usually ran some few linux commands to start the ansible container and attach it, this below script was written to enhance performance. $ nano docker_container_ansible.sh
 
 
+
 ![Docker Container excutin script](https://user-images.githubusercontent.com/79946393/121996495-5456bf80-cd6e-11eb-8ed4-26ffc9e62ff8.PNG)
 
-we then ran the following commands: $ chmod +x docker_container_ansible.sh $ sudo ./docker_container_ansible.sh This will eacalate our privilege to root.
-We then ran the following commands: root@cbe12e5ae6b6e:~# cd /etc/ansible
+We then ran the following commands: 
+$ chmod +x docker_container_ansible.sh 
+$ sudo ./docker_container_ansible.sh 
 
-We created the YAML file: root@cbe12e5ae6b6e:/etc/ansible# nano pentest.yml
+This will eacalate our privilege to root.
+We then ran the following commands: root@dd702153fa76:~# cd /etc/ansible
 
+We created the YAML file: root@dd702153fa76:/etc/ansible# nano pentest.yml
 
+pentest.yml
 ![image](https://user-images.githubusercontent.com/79946393/121948475-e7ffa000-cd1c-11eb-8600-320d586d7f3c.png)
 
 
+We edited the ansible.cfg, and hosts files as follows:
 
+root@dd702153fa76:/etc/ansible# nano ansible.cfg
 
-We edited the ansible.cfg, and hosts files as thus:
-
-root@cbe12e5ae6b6e:/etc/ansible# nano ansible.cfg
-
+ansible.cfg
 ![image](https://user-images.githubusercontent.com/79946393/121948628-17161180-cd1d-11eb-8cf4-b6ec68831e2b.png)
 
-root@cbe12e5ae6b6e:/etc/ansible# nano hosts
+root@dd702153fa76:/etc/ansible# nano hosts
 
-
+hosts
 ![image](https://user-images.githubusercontent.com/79946393/121948707-30b75900-cd1d-11eb-8ef7-490045fd10c8.png)
 
 
-We then ran the playbook to install DVWA on our webservers, Web-1 and Web-2
+We then ran the playbook to install DVWA on our webservers, Web-1, Web-2, and Web-3
 
-root@cbe12e5ae6b6e:/etc/ansible# ansible-playbook pentest.yml
+root@dd702153fa76:/etc/ansible# ansible-playbook pentest.yml
 
 Load Balancer
 From the Azure portal, we searched for "load balancer."
@@ -247,26 +254,25 @@ We chose our original RedTeam vNet in the dropdown labeled 'Virtual Network'.
 We Left all other settings at their defaults.
 Downloading and Configuring the ELK Container
 From your Ansible container, we added the new VM to Ansible's hosts file.
-root@cbe12e5ae6b6e:/etc/ansible# nano hosts
+root@dd702153fa76:/etc/ansible# nano hosts
 
- ![Hosts file](./Ansible/hosts.PNG)
 We created the elk yaml playbook
-root@cbe12e5ae6b6e:/etc/ansible# nano install-elk.ymk
+root@dd702153fa76:/etc/ansible# nano install-elk.ymk
 
-
+install elk
 ![image](https://user-images.githubusercontent.com/79946393/121948774-488edd00-cd1d-11eb-9f90-dc64de4c369c.png)
 
 We then ran the paybook with this code:
-root@cbe12e5ae6b6e:/etc/ansible#ansible-playbook install-elk.yml
+root@dd702153fa76:/etc/ansible# ansible-playbook install-elk.yml
 
-We accessed our ELK server by navigating to "http://[your.ELK-VM.External.IP]:5601/app/kibana" ie. http://104.209.238.34:5601/app/kibana
+We accessed our ELK server by navigating to "http://[your.ELK-VM.External.IP]:5601/app/kibana" ie. http://23.101.120.171:5601/app/kibana#/home
 
-
+Kibana Home
 ![image](https://user-images.githubusercontent.com/79946393/121948842-62302480-cd1d-11eb-8a2e-cd328221e7e8.png)
 
 We selected 'Explore on my own'
 
-
+Kibana add log
 ![image](https://user-images.githubusercontent.com/79946393/121948888-73793100-cd1d-11eb-9bca-a30370640d8f.png)
 
 
@@ -288,10 +294,10 @@ curl https://gist.githubusercontent.com/slape/5cc350109583af6cbe577bbcc0710c93/r
   * After we downloaded the file into the Ansible container, we edited the file as such:
    * we changed the 'username', the 'password', the 'hosts' IP address and ports number.
 
-
+filebeat config yml
 ![image](https://user-images.githubusercontent.com/79946393/121949259-dff43000-cd1d-11eb-953d-045f3a42450f.png)
 
-
+filebeat config yml
 ![image](https://user-images.githubusercontent.com/79946393/121949304-ea162e80-cd1d-11eb-9afc-af2289d02874.png)
 
 3. Creating the FileBeat Installation Play
@@ -300,11 +306,12 @@ curl https://gist.githubusercontent.com/slape/5cc350109583af6cbe577bbcc0710c93/r
   * We created the filebeat-playbook.yml that we will use to installs the Filebeat and then copies the Filebeat configuration file to the correct location, as shown below:
     * We name the playbook as 'filebeat-playbook.yml'
 
+filebeat playbook yml
 ![image](https://user-images.githubusercontent.com/79946393/121949354-fd28fe80-cd1d-11eb-8cfa-159246dd8526.png)
 
   * We saved the file in roles directory, and ran the filebeat-playbook.yml to install Filebeat on the DVWA machines:
 
-root@cbe12e5ae6b6e:/etc/ansible/roles#ansible-playbook filebeat-playbook.yml
+root@dd702153fa76:/etc/ansible# ansible-playbook filebeat-playbook.yml
 
 
 4. Verifying filebeat Installation and Playbook
@@ -317,10 +324,10 @@ After the playbook completed its installations, we performed thr following test 
 This gave us these as prove of installation success:
 
 
-
+check data
 ![image](https://user-images.githubusercontent.com/79946393/121949521-277abc00-cd1e-11eb-909c-8fa16ab4bbe9.png)
 
-
+syslog data
 ![image](https://user-images.githubusercontent.com/79946393/121949535-2d709d00-cd1e-11eb-874c-4074e402db42.png)
 
 
@@ -329,27 +336,27 @@ To do this, we followed the same procedures we used for installing filebeat. * W
 
 * We updated the metricbeat-config.yml file as shown below:
 
-
+metricbeat-config.yml
 ![image](https://user-images.githubusercontent.com/79946393/121949588-3e211300-cd1e-11eb-84e1-b82e2cfaf5c9.png)
 
-
+metricbeat-config.yml
 ![image](https://user-images.githubusercontent.com/79946393/121949601-4416f400-cd1e-11eb-9db8-60690ddd41af.png)
 
 We created our metricbeat playbook as shown below:
 
-
+metricbeat-playbook.yml
 ![image](https://user-images.githubusercontent.com/79946393/121949636-4f6a1f80-cd1e-11eb-8c2a-eac0d49bb765.png)
 
 Verifying Metricbeat Installation and Playbook
 * We ran the metricbeat-playbook.yml file with the command: 
-root@cbe12e5ae6b6e:/etc/ansible/roles#ansible-playbook metricbeat-playbook.yml
+root@dd702153fa76:/etc/ansible# ansible-playbook metricbeat-playbook.yml
 
 * After the process completed, on the ELK server GUI, at 'Step 5: Module Status' we clicked 'Check Data'
 
-
+metricbeat
 ![image](https://user-images.githubusercontent.com/79946393/121949720-6872d080-cd1e-11eb-9786-408cb03a3d0c.png)
 
-
+metricbeat docker
 ![image](https://user-images.githubusercontent.com/79946393/121949747-7163a200-cd1e-11eb-8219-fb1e21eac247.png)
 
 
