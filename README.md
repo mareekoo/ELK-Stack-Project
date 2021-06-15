@@ -5,8 +5,7 @@ The final setup consisted of 2 webservers running DVWA containers, Jump-Box runn
 
 Cloud-Infrastructure:
 
-![Cloud computing Diagram](https://user-images.githubusercontent.com/79946393/121955408-8a238600-cd25-11eb-843f-cc36322f8f8f.png)
-
+![Azure projrct diagram](https://user-images.githubusercontent.com/79946393/121986961-26b54a80-cd5d-11eb-8fc7-4931a09da686.png)
 
 
 Instructions
