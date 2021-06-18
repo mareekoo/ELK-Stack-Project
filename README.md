@@ -1,4 +1,5 @@
 # ELK-Stack-Project
+
 This project creates infrastructure behind SIEM - Kibana, using Linux Scripts and Ansible Scripts to configure cloud servers with different docker containers.
 
 The final setup consisted of 2 webservers running DVWA containers, Jump-Box running an ansible provisional and an Elk server running ELK stack.
@@ -6,7 +7,6 @@ The final setup consisted of 2 webservers running DVWA containers, Jump-Box runn
 Cloud-Infrastructure:
 
 ![Azure projrct diagram](https://user-images.githubusercontent.com/79946393/121992326-0ab6a680-cd67-11eb-884e-f6b3101ee05f.png)
-
 
 Instructions
 Make sure that you are logged into your personal Azure account
@@ -138,8 +138,6 @@ $ sudo docker run -ti cybersecurity/ansible bash
 $ docker run note: this should only be run once after the installation of the docker.io
 YAML
 The Ansible container has full access to our VNet and can make a connection with our new VM. Each time we start our Virtual machines, we usually ran some few linux commands to start the ansible container and attach it, this below script was written to enhance performance. $ nano docker_container_ansible.sh
-
-
 
 ![Docker Container excutin script](https://user-images.githubusercontent.com/79946393/121996495-5456bf80-cd6e-11eb-8ed4-26ffc9e62ff8.PNG)
 
@@ -273,47 +271,45 @@ We selected 'Explore on my own'
 ![Kibana_add_log_data](https://user-images.githubusercontent.com/79946393/121999909-99c9bb80-cd73-11eb-96c3-b70b817b6eee.PNG)
 
 Filebeat Installation on the DVWA Containers
+
 1. While the ELK server container is up and running, we clicked 'Explore on my Own', and performed the following tasks:
 
- * We clicked 'Add Log Data'
- * We then chose 'System Logs'
- * We clicked on the 'DEB' tab under 'Getting Started'.
-   * We derived the filebeat installation instructions from this site, and if the installation is successful, the site will be updated.
+* We clicked 'Add Log Data'
+* We then chose 'System Logs'
+* We clicked on the 'DEB' tab under 'Getting Started'.
+* We derived the filebeat installation instructions from this site, and if the installation is successful, the site will be updated.
 
-2. Creating the Filebeat Configuration File
+2.Creating the Filebeat Configuration File
 
-  * From the /etc/ansible working directory, we ran this command to download the filebeat-config.yml file and edit the configuration settings to work with our ELK server.
+* From the /etc/ansible working directory, we ran this command to download the filebeat-config.yml file and edit the configuration settings to work with our ELK server.
 
 curl https://gist.githubusercontent.com/slape/5cc350109583af6cbe577bbcc0710c93/raw/eca603b72586fbe148c11f9c87bf96a63cb25760/Filebeat > /etc/ansible/files/filebeat-config.yml
 
-
-  * After we downloaded the file into the Ansible container, we edited the file as such:
-   * we changed the 'username', the 'password', the 'hosts' IP address and ports number.
+* After we downloaded the file into the Ansible container, we edited the file as such:
+* we changed the 'username', the 'password', the 'hosts' IP address and ports number.
 
 ![filebeat_config_yml_1](https://user-images.githubusercontent.com/79946393/121999969-b665f380-cd73-11eb-951f-28d98be8d943.PNG)
 
 ![filebeat_config_yml_2](https://user-images.githubusercontent.com/79946393/121999979-bc5bd480-cd73-11eb-933f-5a42d1eafd61.PNG)
 
-3. Creating the FileBeat Installation Play
+3.Creating the FileBeat Installation Play
 
-
-  * We created the filebeat-playbook.yml that we will use to installs the Filebeat and then copies the Filebeat configuration file to the correct location, as shown below:
-    * We name the playbook as 'filebeat-playbook.yml'
+* We created the filebeat-playbook.yml that we will use to installs the Filebeat and then copies the Filebeat configuration file to the correct location, as shown below:
+* We name the playbook as 'filebeat-playbook.yml'
 
 ![filebeat_playbook_yml](https://user-images.githubusercontent.com/79946393/122000020-c8479680-cd73-11eb-9c45-2a8a8f84dc90.PNG)
 
-  * We saved the file in roles directory, and ran the filebeat-playbook.yml to install Filebeat on the DVWA machines:
+* We saved the file in roles directory, and ran the filebeat-playbook.yml to install Filebeat on the DVWA machines:
 
 root@dd702153fa76:/etc/ansible# ansible-playbook filebeat-playbook.yml
 
-
-4. Verifying filebeat Installation and Playbook
+4.Verifying filebeat Installation and Playbook
 After the playbook completed its installations, we performed thr following test to verify that its works:
 
- * We navigated back to the Filebeat installation page on the ELK server GUI.
- * On the page at 'Step 5: Module Status' we clicked 'Check Data''
- * Then at the bottom of the page, we clicked 'Verify Incoming Data'.
- 
+* We navigated back to the Filebeat installation page on the ELK server GUI.
+* On the page at 'Step 5: Module Status' we clicked 'Check Data''
+* Then at the bottom of the page, we clicked 'Verify Incoming Data'.
+
 This gave us these as prove of installation success:
 
 ![Kibana_add_log_data](https://user-images.githubusercontent.com/79946393/122000278-2bd1c400-cd74-11eb-82b3-5dd73fb67f64.PNG)
@@ -326,9 +322,8 @@ This gave us these as prove of installation success:
 
 ![Kibana_system_log_2](https://user-images.githubusercontent.com/79946393/122000374-515ecd80-cd74-11eb-8015-300a8cbcf592.PNG)
 
-
 Creating a Play to Install Metrcbeat
-To do this, we followed the same procedures we used for installing filebeat. * We navigated to the ELK server's IP * We clicked 'Add Metric Data" * Next, we clicked 'Docker Metrics" * Next, we clicked'DEB' tab under 'Getting Started' for the correct Linux instructions.
+To do this, we followed the same procedures we used for installing filebeat. *We navigated to the ELK server's IP* We clicked 'Add Metric Data" *Next, we clicked 'Docker Metrics"* Next, we clicked'DEB' tab under 'Getting Started' for the correct Linux instructions.
 
 * We updated the metricbeat-config.yml file as shown below:
 
@@ -340,14 +335,13 @@ We created our metricbeat playbook as shown below:
 
 ![metricbeat_playbook_yml](https://user-images.githubusercontent.com/79946393/122000483-810dd580-cd74-11eb-8817-cf5c8556c782.PNG)
 
-
 Verifying Metricbeat Installation and Playbook
-* We ran the metricbeat-playbook.yml file with the command: 
+
+* We ran the metricbeat-playbook.yml file with the command:
 root@dd702153fa76:/etc/ansible# ansible-playbook metricbeat-playbook.yml
 
 * After the process completed, on the ELK server GUI, at 'Step 5: Module Status' we clicked 'Check Data'
 
 ![Kibana_Filebeat](https://user-images.githubusercontent.com/79946393/122000590-b3b7ce00-cd74-11eb-9f18-12cecd2a18ba.PNG)
-
 
 ![Kibana_Metricbeat](https://user-images.githubusercontent.com/79946393/122000627-c205ea00-cd74-11eb-94a6-4d6798fdf520.PNG)
