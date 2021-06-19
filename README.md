@@ -195,7 +195,7 @@ We selected the Session persistence to be Client IP and Protocol.
 We selected the backend pool, and health probe we configured previously.
 
 Assess our webservers via the Load balancer
-We accessed our webservers through the load-balancer by navigating to http://52.170.195.27/setup.php
+We accessed our webservers through the load-balancer by navigating to <http://52.170.195.27/setup.php>
 
 ![DVWA_site](https://user-images.githubusercontent.com/79946393/122000874-1b6e1900-cd75-11eb-934c-e47efdcf25f4.PNG)
 

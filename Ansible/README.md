@@ -54,24 +54,13 @@ Machines within the network can only be accessed by ssh.
 -The ELK server only allows my Personal IP address to access the machine while using a specific port.
  A summary of the access policies in place can be found in the table below.
 
-Name
-Publicly Accessible?
-Allowed IP Address
-Jump-Box-Provisioner
-No
-10.1.0.4
-Web-1
-No
-10.1.0.7
-Web-2
-No
-10.1.0.8
-Web-3
-No
-10.1.0.9
-ELK-server
-No
-Personal IP Address
+| Name                 | Publicly Accessible | Allowed IP Addresses |
+|----------------------|---------------------|----------------------|
+| Jump-Box-Provisioner | No                  | 10.1.0.4             |
+| Web-1                | No                  | 10.1.0.7             |
+| Web-2                | No                  | 10.1.0.8             |
+| Web-3                | No                  | 10.1.0.9             |
+| ELK-server           | No                  | Personal IP Address  |
 
 Note that none of the machines were accessible from the public for this project.
 
@@ -108,8 +97,8 @@ These Beats allow us to collect the following information from each machine:
 Filebeat focuses on tracking system events by gathering system logs.
 Metricbeat focuses on monitoring the usage of resources by collecting system and service metric data.
 
-
 ### Using the Playbook
+
 In order to use the playbook, you will need to have an Ansible control node already configured. Assuming you have such a control node provisioned: 
 
 SSH into the control node and follow the steps below:
@@ -128,8 +117,9 @@ For this, I used the filebeat configuration file template.
 To create the playbook: nano filebeat-playbook.yml
 
 name: installing and launching filebeat hosts: webservers become: true tasks:
+
 - name: download filebeat deb
-  command: curl -L -O https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-7.7.1-amd64.deb
+  command: curl -L -O <https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-7.7.1-amd64.deb>
 
 - name: install filebeat deb
   command: dpkg -i filebeat-7.7.1-amd64.deb
@@ -147,7 +137,6 @@ name: installing and launching filebeat hosts: webservers become: true tasks:
 
 - name: start filebeat service
  command: service filebeat start
- 
 
 -To run the playbook: ansible-playbook filebeat-playbook.yml
 In order to run the playbook, you have to be in the directory the playbook is at, or give the path to it (ansible-playbook /etc/ansible/roles/filebeat-playbook.yml
@@ -156,7 +145,7 @@ To create the metricbeat-configuration.yml file: nano metricbeat-configuration.y
 To create the playbook: nano metricbeat-playbook.yml
 
 name: installing and lunching metricbeat hosts: webservers become: true tasks:
-name: download metricbeat deb command: curl -L -O https://artifacts.elastic.co/downloads/beats/metricbeat/metricbeat-7.7.1-amd64.deb
+name: download metricbeat deb command: curl -L -O <https://artifacts.elastic.co/downloads/beats/metricbeat/metricbeat-7.7.1-amd64.deb>
 name: install metricbeat deb command: sudo dpkg -i metricbeat-7.7.1-amd64.deb
 name: drop in metricbeat.yml copy: src: /etc/ansible/roles/files/metricbeat-configuration.yml dest: /etc/metricbeat/metricbeat.yml
 name: enable and configure system module command: metricbeat modules enable system
