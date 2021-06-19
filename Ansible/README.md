@@ -4,12 +4,9 @@ The files in this repository were used to configure the network depicted below.
 
 ![Azure projrct diagram](https://user-images.githubusercontent.com/79946393/121992326-0ab6a680-cd67-11eb-884e-f6b3101ee05f.png)
 
-These files have been tested and used to generate a live ELK deployment on Azure. They can be used to either recreate the entire deployment pictured above. Alternatively, select portions of the filebeat playbook file may be used to install only certain pieces of it, such as Filebeat.
+These files have been tested and used to generate a live ELK deployment on Azure. They can be used to either recreate the entire deployment pictured above. Alternatively, select portions of the _____ file may be used to install only certain pieces of it, such as Filebeat.
 
-[metricbeat_playbook_yml.txt](https://github.com/mareekoo/ELK-Stack-Project/files/6681321/metricbeat_playbook_yml.txt)
-[pentest_yml.txt](https://github.com/mareekoo/ELK-Stack-Project/files/6681322/pentest_yml.txt)
-[filebeat-playbook_yml.txt](https://github.com/mareekoo/ELK-Stack-Project/files/6681323/filebeat-playbook_yml.txt)
-[elkplaybook_yml.txt](https://github.com/mareekoo/ELK-Stack-Project/files/6681324/elkplaybook_yml.txt)
+- _TODO: Enter the playbook file._
 
 This document contains the following details:
 
@@ -59,7 +56,7 @@ Machines within the network can only be accessed by ssh.
 
 | Name                 | Publicly Accessible | Allowed IP Addresses |
 |----------------------|---------------------|----------------------|
-| Jump-Box-Provisioner | No                  | 10.1.0.4             |
+| Jump-Box-Provisioner | Yes                 | 10.1.0.4             |
 | Web-1                | No                  | 10.1.0.7             |
 | Web-2                | No                  | 10.1.0.8             |
 | Web-3                | No                  | 10.1.0.9             |
