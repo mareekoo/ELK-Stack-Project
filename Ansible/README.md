@@ -4,10 +4,8 @@ The files in this repository were used to configure the network depicted below.
 
 ![Azure projrct diagram](https://user-images.githubusercontent.com/79946393/121992326-0ab6a680-cd67-11eb-884e-f6b3101ee05f.png)
 
-These files have been tested and used to generate a live ELK deployment on Azure. They can be used to either recreate the entire deployment pictured above. Alternatively, select portions of the _____ file may be used to install only certain pieces of it, such as Filebeat.
+These files have been tested and used to generate a live ELK deployment on Azure. They can be used to either recreate the entire deployment pictured above. Alternatively, select portions of the project file may be used to install only certain pieces of it, such as Filebeat.
 
-- _TODO: Enter the playbook file._
-[Metricbeat](./Metricbeat/metricbeat-playbook.yml)
 [ELK]()
 This document contains the following details:
 
